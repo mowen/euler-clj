@@ -55,13 +55,13 @@
 (defn max-product-at [xy]
   (let [values (values-in-all-directions xy)
         products (map product values)]
-    (last (sort products))))
+    (reduce max products)))
 
 (defn grid-map [f]
+  "Apply a function to all positions in the grid."
   (for [y (range 20)
         x (range 20)]
     (f [x y])))
 
 (defn euler-11 []
-  (last (sort (grid-map max-product-at))))
-  
+  (reduce max (grid-map max-product-at)))
