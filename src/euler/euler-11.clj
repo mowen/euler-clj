@@ -27,10 +27,9 @@
 
 (defn value-at [[x y]]
   "Get the value at X and Y starting from top left."
-  (let [too-low #(or (neg? %1) (neg? %2))
-        too-high #(or (> %1 19) (> %2 19))
-        out-of-bounds #(or (too-low %1 %2) (too-high %1 %2))]
-    (if (out-of-bounds x y)
+  (let [too-low (or (neg? x) (neg? y))
+        too-high (or (> x 19) (> y 19))]
+    (if (or too-low too-high)
       nil
       (nth (nth grid y) x))))
 
