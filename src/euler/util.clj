@@ -4,8 +4,7 @@
   (zero? (rem x divisor)))
 
 (defn factors-seq [x rang]
-  (for [i rang
-        :when (divisible? x i)]
+  (for [i rang :when (divisible? x i)]
     i))
 
 (defn factors [x]
@@ -14,7 +13,12 @@
       (cons 2 (factors-seq x (range 3 (+ 1 (/ x 2)))))
     (and (not (= x 3)) (divisible? x 3))
       (cons 3 (factors-seq x (range 4 (+ 2 (Math/sqrt x)))))
-    :else (factors-seq x (range 3 (+ 1 (Math/sqrt x))))))
+      :else (factors-seq x (range 3 (+ 1 (Math/sqrt x))))))
+
+(defn inclusive-factors [x]
+  "All factors of the number including itself and 1."
+  (for [i (range 1 (inc x)) :when (divisible? x i)]
+    i))
 
 (defn no-factors? [x]
   (not-any? #(zero? (rem x %))
@@ -39,6 +43,9 @@
 
 (defn primes-below [n]
   (take-while #(< % n) (prime-seq)))
+
+(defn nth-triangle-number [n]
+  (reduce + (range 1 (inc n))))
 
 (defn exp [x n]
   (loop [total 1
