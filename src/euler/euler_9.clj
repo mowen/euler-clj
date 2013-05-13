@@ -17,4 +17,3 @@
   (let [all-possible-solutions (mapcat possible-solutions (range 335 998))
         solution (first (filter is-pythagoran-triplet? all-possible-solutions))]
     (product solution)))
-  
