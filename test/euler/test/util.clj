@@ -16,6 +16,6 @@
 
 (deftest test-binary-search
   (is (= nil (binary-search [] 5)))
-  (is (= 2 (binary-search [1 3 5 7 10 15 18] 5 identity 0 7)))
-  (is (= 3 (binary-search [1 3 5 10 15 18] 10)))
-  (is (= 4 (binary-search [1 3 5 10 15 18] 30 #(* 2 %)))))
+  (is (= 2 (binary-search [1 3 5 7 10 15 18] #(compare % 5) 0 7)))
+  (is (= 3 (binary-search [1 3 5 10 15 18] #(compare % 10))))
+  (is (= 4 (binary-search [1 3 5 10 15 18] #(compare (* 2 %) 30)))))

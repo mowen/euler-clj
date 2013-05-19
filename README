@@ -1,9 +1,3 @@
 # euler-clj
 
 My Project Euler solutions, in Clojure.
-
-## License
-
-Copyright (C) 2011 Martin Owen
-
-Distributed under the Eclipse Public License, the same as Clojure.
