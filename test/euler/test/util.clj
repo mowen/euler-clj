@@ -15,5 +15,6 @@
   (is (= 28 (nth-triangle-number 7))))
 
 (deftest test-binary-search
-  (is (= nil (binary-search [] #(compare % 5))))
-  (is (= 5 (binary-search [1 3 5 7 10 15 18] #(compare % 5) 0 7))))
+  (is (= nil (binary-search [] 5)))
+  (is (= 2 (binary-search [1 3 5 7 10 15 18] 5 0 7)))
+  (is (= 3 (binary-search [1 3 5 10 15 18] 10))))
