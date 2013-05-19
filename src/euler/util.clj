@@ -65,14 +65,15 @@
 
 (defn binary-search
   "Use a binary search to find the first instance of target in seq."
-  ([seq target] (binary-search seq target 0 (count seq)))
-  ([seq target min] (binary-search seq target min (count seq)))
-  ([seq target min max]
+  ([seq target] (binary-search seq target identity))
+  ([seq target f] (binary-search seq target f 0 (count seq)))
+  ([seq target f min] (binary-search seq target f min (count seq)))
+  ([seq target f min max]
      (cond
       (or (< max min) (empty? seq)) nil
       :else (let [midpoint (+ min (quot (- max min) 2))
-                  result (compare (nth seq midpoint) target)]
+                  result (compare (f (nth seq midpoint)) target)]
               (cond
-               (> result 0) (recur seq target min (dec midpoint))
-               (< result 0) (recur seq target (inc midpoint) max)
+               (> result 0) (recur seq target f min (dec midpoint))
+               (< result 0) (recur seq target f (inc midpoint) max)
                :else midpoint)))))
