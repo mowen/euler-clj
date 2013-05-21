@@ -35,6 +35,9 @@
 (defn prime-factors [x]
   (filter prime? (factors x)))
 
+(defn inclusive-prime-factors [x]
+  (filter prime? (inclusive-factors x)))
+
 (defn prime-seq []
   (filter prime? (iterate inc 1)))
 
@@ -44,16 +47,20 @@
 (defn primes-below [n]
   (take-while #(< % n) (prime-seq)))
 
-(defn divisors
-  "Return a sequence of the prime factors (divisors) of a number."
-  ([n] (divisors n (prime-factors n) []))
-  ([n prime-factors divisors]
-     (let [next-prime (first prime-factors)]
-       (cond
-        (= 1 next-prime) (recur n (rest prime-factors) divisors)
-        (zero? (mod n next-prime)) (recur (/ n next-prime) prime-factors (conj divisors next-prime))
-        (not (zero? (mod n next-prime))) (recur (/ n next-prime) (rest prime-factors) divisors)
-        (> next-prime n) divisors))))
+(defn exp-primes
+  "Return a the exponential prime factors of a number."
+  ([n] (exp-primes n (inclusive-prime-factors n) []))
+  ([n prime-factors exp-primes]
+     (if (or (empty? prime-factors) (= 1 n))
+       exp-primes
+       (let [next-prime (first prime-factors)]
+         (cond
+          (= 1 next-prime)
+          (recur n (rest prime-factors) exp-primes)
+          (zero? (mod n next-prime))
+          (recur (/ n next-prime) prime-factors (conj exp-primes next-prime))
+          (not (zero? (mod n next-prime)))
+          (recur n (rest prime-factors) exp-primes))))))
 
 (defn nth-triangle-number [n]
   (reduce + (range 1 (inc n))))
