@@ -9,11 +9,11 @@
 
 (defn factors [x]
   (cond
-    (and (not (= x 2)) (even? x))
-      (cons 2 (factors-seq x (range 3 (+ 1 (/ x 2)))))
-    (and (not (= x 3)) (divisible? x 3))
-      (cons 3 (factors-seq x (range 4 (+ 2 (Math/sqrt x)))))
-      :else (factors-seq x (range 3 (+ 1 (Math/sqrt x))))))
+   (and (not (= x 2)) (even? x))
+   (cons 2 (factors-seq x (range 3 (+ 1 (/ x 2)))))
+   (and (not (= x 3)) (divisible? x 3))
+   (cons 3 (factors-seq x (range 4 (+ 2 (Math/sqrt x)))))
+   :else (factors-seq x (range 3 (+ 1 (Math/sqrt x))))))
 
 (defn inclusive-factors [x]
   "All factors of the number including itself and 1."
@@ -26,11 +26,11 @@
 
 (defn prime? [x]
   (cond
-    (or (= x 2) (= x 3))
-      true
-    (or (< x 2) (even? x))
-      false
-    :else (no-factors? x)))
+   (or (= x 2) (= x 3))
+   true
+   (or (< x 2) (even? x))
+   false
+   :else (no-factors? x)))
 
 (defn prime-factors [x]
   (filter prime? (factors x)))
@@ -43,6 +43,17 @@
 
 (defn primes-below [n]
   (take-while #(< % n) (prime-seq)))
+
+(defn divisors
+  "Return a sequence of the prime factors (divisors) of a number."
+  ([n] (divisors n (prime-factors n) []))
+  ([n prime-factors divisors]
+     (let [next-prime (first prime-factors)]
+       (cond
+        (= 1 next-prime) (recur n (rest prime-factors) divisors)
+        (zero? (mod n next-prime)) (recur (/ n next-prime) prime-factors (conj divisors next-prime))
+        (not (zero? (mod n next-prime))) (recur (/ n next-prime) (rest prime-factors) divisors)
+        (> next-prime n) divisors))))
 
 (defn nth-triangle-number [n]
   (reduce + (range 1 (inc n))))
