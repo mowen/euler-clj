@@ -47,9 +47,14 @@
 (defn primes-below [n]
   (take-while #(< % n) (prime-seq)))
 
+(defn increment-count [hash n]
+  (if (contains? hash n)
+    (update-in hash [n] inc)
+    (assoc hash n 1)))
+
 (defn exp-primes
   "Return a the exponential prime factors of a number."
-  ([n] (exp-primes n (inclusive-prime-factors n) []))
+  ([n] (exp-primes n (inclusive-prime-factors n) {}))
   ([n prime-factors exp-primes]
      (if (or (empty? prime-factors) (= 1 n))
        exp-primes
@@ -58,7 +63,7 @@
           (= 1 next-prime)
           (recur n (rest prime-factors) exp-primes)
           (zero? (mod n next-prime))
-          (recur (/ n next-prime) prime-factors (conj exp-primes next-prime))
+          (recur (/ n next-prime) prime-factors (increment-count exp-primes next-prime))
           (not (zero? (mod n next-prime)))
           (recur n (rest prime-factors) exp-primes))))))
 
