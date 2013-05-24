@@ -15,12 +15,16 @@
   (is (= 28 (nth-triangle-number 7))))
 
 (deftest test-exp-primes
-  (is (= {2 1} (exp-primes 2)))
-  (is (= {3 1} (exp-primes 3)))
-  (is (= {2 2} (exp-primes 4)))
-  (is (= {2 1 5 1} (exp-primes 10)))
-  (is (= {2 2 7 1} (exp-primes 28)))
-  (is (= {2 3 3 2} (exp-primes 72))))
+  (is (= {1 0, 2 1} (prime-factors-in-exponent-notation 2)))
+  (is (= {1 0, 2 0, 3 1} (prime-factors-in-exponent-notation 3)))
+  (is (= {1 0, 2 2, 3 0} (prime-factors-in-exponent-notation 4)))
+  (is (= {1 0, 2 1, 3 0, 5 1, 7 0} (prime-factors-in-exponent-notation 10)))
+  (is (= {1 0, 2 2, 3 0, 5 0, 7 1, 11 0, 13 0, 17 0, 19 0, 23 0} (prime-factors-in-exponent-notation 28)))
+  (is (= {1 0, 2 3, 3 2} (prime-factors-in-exponent-notation 72))))
+
+(deftest test-number-of-divisors
+  (is (= 6 (number-of-divisors 28)))
+  )
 
 (deftest test-binary-search
   (is (= nil (binary-search [] 5)))

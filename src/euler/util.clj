@@ -47,6 +47,9 @@
 (defn primes-below [n]
   (take-while #(< % n) (prime-seq)))
 
+(defn inclusive-primes-below [n]
+  (cons 1 (take-while #(< % n) (prime-seq))))
+
 (defn increment-count [hash n]
   (if (contains? hash n)
     (update-in hash [n] inc)
@@ -66,6 +69,19 @@
           (recur (/ n next-prime) prime-factors (increment-count exp-primes next-prime))
           (not (zero? (mod n next-prime)))
           (recur n (rest prime-factors) exp-primes))))))
+
+(defn prime-factors-in-exponent-notation [n]
+  (into {}
+        (let [result {}
+              prime-divisors (exp-primes n)]
+          (for [prime (inclusive-primes-below n)]
+            (if (contains? prime-divisors prime)
+              (assoc result prime (prime-divisors prime))
+              (assoc result prime 0))))))
+
+(defn number-of-divisors [n]
+  (let [prime-factors (prime-factors-in-exponent-notation n)]
+    (reduce #(* %1 (inc (prime-factors %2))) 1 (keys prime-factors))))
 
 (defn nth-triangle-number [n]
   (reduce + (range 1 (inc n))))

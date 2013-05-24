@@ -2,7 +2,7 @@
   (:use euler.util))
 
 (defn factors-for-nth-triangle-number [n]
-  (count (inclusive-factors (nth-triangle-number n))))
+  (number-of-divisors (nth-triangle-number n)))
 
 (defn triangle-num-factors [start end]
   (map #(vector % (factors-for-nth-triangle-number %)) (range start (inc end))))
