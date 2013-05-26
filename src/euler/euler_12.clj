@@ -1,19 +1,17 @@
 (ns euler.euler-12
   (:use euler.util))
 
-(defn factors-for-nth-triangle-number [n]
-  (number-of-divisors (nth-triangle-number n)))
-
-(defn triangle-num-factors [start end]
-  (map #(vector % (factors-for-nth-triangle-number %)) (range start (inc end))))
-
-(defn compare-num-factors? [n]
+(defn compare-num-factors? [n target]
   "Is the nth triangle number the first one with 500 factors?"
-  (let [factors-for-n (factors-for-nth-triangle-number n)
-        factors-for-n-minus-1 (factors-for-nth-triangle-number (dec n))]
+  (let [nth (nth-triangle-number n)
+        nth-minus-1 (nth-triangle-number (dec n))
+        divisors-for-n (number-of-divisors nth)
+        divisors-for-n-minus-1 (number-of-divisors nth-minus-1)]
+    (prn nth " divisors: " divisors-for-n)
+    (prn nth-minus-1 " divisors: " divisors-for-n-minus-1)
     (cond
-     (and (> factors-for-n 500) (<= factors-for-n-minus-1 500)) 0
-     (> factors-for-n 500) 1
+     (and (> divisors-for-n target) (<= divisors-for-n-minus-1 target)) 0
+     (> divisors-for-n target) 1
      :else -1)))
 
 (defn euler-12 [start end]
